@@ -1,0 +1,8 @@
+{
+  "upstream": "http://127.0.0.1:9876/",
+  "endpoint_timeout": 10.0,
+  "post_timeout": 120.0,
+  "rpc_timeout": 180.0,
+  "reconnect_attempts": 1,
+  "quiet": true
+}
