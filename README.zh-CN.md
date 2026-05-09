@@ -8,33 +8,33 @@ Burp 的 MCP 扩展在 `http://127.0.0.1:9876/` 暴露的是 legacy HTTP+SSE end
 
 ## 文件
 
-- `burpsuite_stdio_bridge.py` - Codex 使用的 stdio MCP bridge。
-- `burpsuite_stdio_bridge.json` - bridge 的运行时配置。
+- `codex_burp_mcp_bridge.py` - Codex 使用的 stdio MCP bridge。
+- `codex_burp_mcp_bridge.json` - bridge 的运行时配置。
 
 ## Codex 配置
 
 `~/.codex/config.toml` 中的 MCP 配置应类似下面这样：
 
 ```toml
-[mcp_servers.burpsuite_stdio]
+[mcp_servers.burp_mcp]
 type = "stdio"
-command = "/Users/aa8j/tools/burpMCPtoCodex/burpsuite_stdio_bridge.py"
+command = "/absolute/path/to/codex-burp-mcp-bridge/codex_burp_mcp_bridge.py"
 ```
 
 使用下面的命令确认配置：
 
 ```bash
-codex mcp get burpsuite_stdio
+codex mcp get burp_mcp
 codex mcp list
 ```
 
 预期结果：
 
 ```text
-burpsuite_stdio
+burp_mcp
   enabled: true
   transport: stdio
-  command: /Users/aa8j/tools/burpMCPtoCodex/burpsuite_stdio_bridge.py
+  command: /absolute/path/to/codex-burp-mcp-bridge/codex_burp_mcp_bridge.py
 ```
 
 修改 MCP 配置后，需要重新打开一个 Codex 窗口。已经打开的 Codex 会话不会动态获得新配置的 MCP 工具。
@@ -60,7 +60,7 @@ data: ?sessionId=...
 
 ## Bridge 配置
 
-`burpsuite_stdio_bridge.json`：
+`codex_burp_mcp_bridge.json`：
 
 ```json
 {
@@ -89,7 +89,7 @@ data: ?sessionId=...
 运行 bridge：
 
 ```bash
-./burpsuite_stdio_bridge.py
+./codex_burp_mcp_bridge.py
 ```
 
 粘贴下面几行 JSON-RPC：
@@ -117,10 +117,10 @@ data: ?sessionId=...
 
 如果 Codex 看不到工具：
 
-1. 运行 `codex mcp get burpsuite_stdio`，确认显示 `transport: stdio`。
+1. 运行 `codex mcp get burp_mcp`，确认显示 `transport: stdio`。
 2. 修改配置后重新打开 Codex 窗口。
 3. 确认 Burp 正在监听 `127.0.0.1:9876`。
-4. 临时把 `burpsuite_stdio_bridge.json` 中的 `"quiet"` 改成 `false`，重启 Codex 查看 bridge 日志。
+4. 临时把 `codex_burp_mcp_bridge.json` 中的 `"quiet"` 改成 `false`，重启 Codex 查看 bridge 日志。
 
 如果请求超时：
 

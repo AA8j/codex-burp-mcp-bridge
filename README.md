@@ -8,33 +8,33 @@ Burp's MCP extension exposes a legacy HTTP+SSE endpoint on `http://127.0.0.1:987
 
 ## Files
 
-- `burpsuite_stdio_bridge.py` - stdio MCP bridge used by Codex.
-- `burpsuite_stdio_bridge.json` - runtime configuration for the bridge.
+- `codex_burp_mcp_bridge.py` - stdio MCP bridge used by Codex.
+- `codex_burp_mcp_bridge.json` - runtime configuration for the bridge.
 
 ## Codex configuration
 
 The MCP entry should look like this in `~/.codex/config.toml`:
 
 ```toml
-[mcp_servers.burpsuite_stdio]
+[mcp_servers.burp_mcp]
 type = "stdio"
-command = "/Users/aa8j/tools/burpMCPtoCodex/burpsuite_stdio_bridge.py"
+command = "/absolute/path/to/codex-burp-mcp-bridge/codex_burp_mcp_bridge.py"
 ```
 
 Verify it with:
 
 ```bash
-codex mcp get burpsuite_stdio
+codex mcp get burp_mcp
 codex mcp list
 ```
 
 Expected result:
 
 ```text
-burpsuite_stdio
+burp_mcp
   enabled: true
   transport: stdio
-  command: /Users/aa8j/tools/burpMCPtoCodex/burpsuite_stdio_bridge.py
+  command: /absolute/path/to/codex-burp-mcp-bridge/codex_burp_mcp_bridge.py
 ```
 
 Open a new Codex window after changing MCP configuration. Existing Codex sessions do not dynamically gain newly configured MCP tools.
@@ -60,7 +60,7 @@ data: ?sessionId=...
 
 ## Bridge configuration
 
-`burpsuite_stdio_bridge.json`:
+`codex_burp_mcp_bridge.json`:
 
 ```json
 {
@@ -89,7 +89,7 @@ For slow Burp tools, increase `rpc_timeout` first. For slow HTTP requests made t
 Run the bridge:
 
 ```bash
-./burpsuite_stdio_bridge.py
+./codex_burp_mcp_bridge.py
 ```
 
 Paste these JSON-RPC lines:
@@ -117,10 +117,10 @@ Expected behavior:
 
 If Codex cannot see the tools:
 
-1. Run `codex mcp get burpsuite_stdio` and confirm `transport: stdio`.
+1. Run `codex mcp get burp_mcp` and confirm `transport: stdio`.
 2. Open a new Codex window after config changes.
 3. Confirm Burp is listening on `127.0.0.1:9876`.
-4. Temporarily set `"quiet": false` in `burpsuite_stdio_bridge.json` and restart Codex to see bridge logs.
+4. Temporarily set `"quiet": false` in `codex_burp_mcp_bridge.json` and restart Codex to see bridge logs.
 
 If requests time out:
 

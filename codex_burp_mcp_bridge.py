@@ -19,7 +19,7 @@ from urllib.request import Request, urlopen
 
 
 DEFAULT_UPSTREAM = "http://127.0.0.1:9876/"
-CONFIG_PATH = Path(__file__).with_name("burpsuite_stdio_bridge.json")
+CONFIG_PATH = Path(__file__).with_name("codex_burp_mcp_bridge.json")
 FALLBACK_METHODS = {
     "resources/list": {"resources": []},
     "resources/templates/list": {"resourceTemplates": []},
